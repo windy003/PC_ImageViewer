@@ -76,6 +76,14 @@ class ImageViewer(QMainWindow):
         zoom_out_action.triggered.connect(self.zoom_out)
         view_menu.addAction(zoom_out_action)
         
+        # 在查看菜单中添加恢复原始大小选项
+        view_menu.addAction(zoom_out_action)
+        
+        reset_zoom_action = QAction('恢复原始大小(&R)', self)
+        reset_zoom_action.setShortcut('Ctrl+0')
+        reset_zoom_action.triggered.connect(self.reset_zoom)
+        view_menu.addAction(reset_zoom_action)
+        
         # 添加到"编辑"菜单
         edit_menu = menubar.addMenu('编辑(&E)')
         paste_action = QAction('粘贴(&P)', self)
@@ -185,6 +193,12 @@ class ImageViewer(QMainWindow):
             pixmap = self.image_label.pixmap()
             if pixmap:
                 pixmap.save(file_name)
+
+    # 添加恢复原始大小的方法
+    def reset_zoom(self):
+        if self.current_image:
+            self.scale_factor = 1.0
+            self.update_image()
 
 def main():
     app = QApplication(sys.argv)
